@@ -32,7 +32,7 @@ IoT(Internet of Things), Smart Building, Building Efficiency, Environmental Sens
 # Conclusion
 
 # NOTE
-[1] “How much energy is consumed in residential and commercial buildings in the United States?” (Web Log Posted on EIA) April.6.2016 From http://www.eia.gov/tools/faqs/faq.cfm?id=86&t=1
-[2] “Green Building 101: Why is energy efficiency important?” (Web Log Posted on LEED) May.14.2014 From http://www.usgbc.org/articles/green-building-101-why-energy-efficiency-important
-[3] Surabhi Kejriwal, Saurabh Mahajan “Smart buildings: How IoT technology aims to add value for real estate companies” Deloitte University Press 2016
+>[1] “How much energy is consumed in residential and commercial buildings in the United States?” (Web Log Posted on EIA) April.6.2016 From http://www.eia.gov/tools/faqs/faq.cfm?id=86&t=1
+>[2] “Green Building 101: Why is energy efficiency important?” (Web Log Posted on LEED) May.14.2014 From http://www.usgbc.org/articles/green-building-101-why-energy-efficiency-important
+>[3] Surabhi Kejriwal, Saurabh Mahajan “Smart buildings: How IoT technology aims to add value for real estate companies” Deloitte University Press 2016
 
