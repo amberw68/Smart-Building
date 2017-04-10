@@ -8,9 +8,10 @@ ser = serial.Serial('串口', 9600, timeout=0)
 #Setup a loop to send Temperature values at fixed intervals
 #in seconds
 fixed_interval = 10
+# Temperature
 while 1:
   try:
-    #temperature value obtained from Arduino + LM35 Temp Sensor          
+    #temperature value obtained from Arduino + DHT Sensor          
     temperature_c = ser.readline()
     
     #current time and date
@@ -30,3 +31,28 @@ while 1:
   except IOError:
     print('Error! Something went wrong.')
   time.sleep(fixed_interval)
+  
+# Humidity
+while 1:
+  try:
+    #Humidity value obtained from Arduino + DHT Sensor          
+    hum_h = ser.readline()
+    
+    #current time and date
+    time_hhmmss = time.strftime('%H:%M:%S')
+    date_mmddyyyy = time.strftime('%d/%m/%Y')
+    
+    #current location name
+    hum_location = 'office1';
+    print temperature_c + ',' + time_hhmmss + ',' + date_mmddyyyy + ',' + hum_location
+    
+    #insert record
+    data = {'date':date_mmddyyyy,'time':time_hhmmss,'value':hum_h}
+    result = requests.post(firebase_url + '/' + hum_location + '/Humidity.json', data=json.dumps(data))
+    
+    print 'Record inserted. Result Code = ' + str(result.status_code) + ',' + result.text
+    time.sleep(fixed_interval)
+  except IOError:
+    print('Error! Something went wrong.')
+  time.sleep(fixed_interval)
+  
