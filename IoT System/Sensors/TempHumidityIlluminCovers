@@ -1,0 +1,50 @@
+/* Photocell simple testing sketch. 
+ 
+Connect one end of the photocell to 5V, the other end to Analog 0.
+Then connect one end of a 10K resistor from Analog 0 to ground 
+Connect LED from pin 11 through a resistor to ground 
+tutorial based on https://learn.adafruit.com/photocells/using-a-photocell */
+
+
+
+#include <dht.h>
+dht DHT;
+#define DHT11_PIN 7  //DHT for Temp and Humidity Moudle
+
+ 
+int photocellPin = 0;     // the cell and 10K pulldown are connected to a0
+int photocellReading;     // the analog reading from the sensor divider
+
+
+int soundDetectedPin = 10;
+
+
+void setup(void) {
+  Serial.begin(9600);   
+  pinMode (soundDetectedPin, INPUT) ; 
+}
+
+
+void loop(void) {
+  photocellReading = analogRead(photocellPin);  
+ 
+  Serial.print("Illuminance = ");
+  Serial.println(photocellReading);     // the analog reading of Illuminance
+  
+   int chk = DHT.read11(DHT11_PIN);
+  Serial.print("Temperature = ");
+  Serial.println(DHT.temperature);  //the digital reading of Temp
+  Serial.print("Humidity = ");
+  Serial.println(DHT.humidity);   // the digital reading of humidity
+
+  int sta = digitalRead (soundDetectedPin);
+  if (sta == 1)
+  {
+     Serial.print("Conversation = Y ");
+  }
+  else
+  {
+    Serial.print("Conversation = N ");
+  }
+  delay(1000);
+}
