@@ -1,0 +1,54 @@
+import serial
+import time
+import requests
+import json
+
+firebase_url = 'https://iot-temp-database.firebaseio.com/'
+# Connect to Serial Port for communication
+ser = serial.Serial('COM4', 9600, timeout=0)
+# Setup a loop to send Temperature values at fixed intervals
+# in seconds
+fixed_interval = 1
+# Temperature
+while 1:
+    try:
+        # temperature value obtained from Arduino + DHT Sensor
+        dataset = ser.readline()
+        if(len(dataset)>3):
+            datalist = dataset.split(',')
+            lux=datalist[0]
+            temperature = datalist[1]
+            hum = datalist[2]
+            if(datalist[3][0]=='Y'):
+                boo=1
+            if(datalist[3][1]=='N'):
+                boo=0
+            print boo
+            print temperature
+            print hum
+            print lux
+            # current time and date
+            time_hhmmss = time.strftime('%H:%M:%S')
+            date_mmddyyyy = time.strftime('%d/%m/%Y')
+
+            # current location name
+            temperature_location = 'office';
+            print temperature + ',' + time_hhmmss + ',' + date_mmddyyyy + ',' + temperature_location
+
+            # insert record
+            data_t = {'date': date_mmddyyyy, 'time': time_hhmmss, 'value': temperature}
+            data_h = {'date': date_mmddyyyy, 'time': time_hhmmss, 'value': hum}
+            data_b = {'date': date_mmddyyyy, 'time': time_hhmmss, 'value': boo}
+            data_l = {'date': date_mmddyyyy, 'time': time_hhmmss, 'value': lux}
+            res_t = requests.post(firebase_url + '/' + temperature_location + '/temperature.json', data=json.dumps(data_t))
+            res_b = requests.post(firebase_url + '/' + temperature_location + '/conversation.json', data=json.dumps(data_b))
+            res_h = requests.post(firebase_url + '/' + temperature_location + '/humidity.json', data=json.dumps(data_h))
+            res_l = requests.post(firebase_url + '/' + temperature_location + '/lux.json', data=json.dumps(data_l))
+            print 'Record inserted. Result Code = ' + str(res_t.status_code) + ',' + res_t.text
+            print 'Record inserted. Result Code = ' + str(res_b.status_code) + ',' + res_b.text
+            print 'Record inserted. Result Code = ' + str(res_l.status_code) + ',' + res_l.text
+            print 'Record inserted. Result Code = ' + str(res_h.status_code) + ',' + res_h.text
+            time.sleep(fixed_interval)
+    except IOError:
+         print('Error! Something went wrong.')
+    time.sleep(fixed_interval)
